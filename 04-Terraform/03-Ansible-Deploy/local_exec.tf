@@ -23,7 +23,7 @@ resource "null_resource" "remote-exec-1" {
     user        = "ubuntu"
     type        = "ssh"
     private_key = "${file(var.pvt_key)}"
-    host        = "ec2-44-225-3-19.us-west-2.compute.amazonaws.com"
+    host        = "44.225.3.19"
   }
 
   provisioner "remote-exec" {
