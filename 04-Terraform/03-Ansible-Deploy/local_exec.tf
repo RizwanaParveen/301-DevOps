@@ -10,20 +10,20 @@ provider "aws" {
   
 }
 
-resource "aws_instance" "backend" {
-  ami                    = "ami-0994c095691a46fb5"
-  instance_type          = "t2.micro"
-  key_name               = "${var.key_name}"
-  vpc_security_group_ids = ["${var.sg-id}"]
+# resource "aws_instance" "backend" {
+#   ami                    = "ami-0994c095691a46fb5"
+#   instance_type          = "t2.micro"
+#   key_name               = "${var.key_name}"
+#   vpc_security_group_ids = ["${var.sg-id}"]
 
-}
+# }
 
 resource "null_resource" "remote-exec-1" {
     connection {
     user        = "ubuntu"
     type        = "ssh"
     private_key = "${file(var.pvt_key)}"
-    host        = "${aws_instance.backend.public_ip}"
+    host        = "ec2-44-225-3-19.us-west-2.compute.amazonaws.com"
   }
 
   provisioner "remote-exec" {
@@ -41,7 +41,7 @@ provisioner "local-exec" {
         > jenkins-ci.ini;
         echo "[jenkins-ci]"| tee -a jenkins-ci.ini;
         export ANSIBLE_HOST_KEY_CHECKING=False;
-        echo "${aws_instance.backend.public_ip}" | tee -a jenkins-ci.ini;
+        echo "ec2-44-225-3-19.us-west-2.compute.amazonaws.com" | tee -a jenkins-ci.ini;
         ansible-playbook  --key=${var.pvt_key} -i jenkins-ci.ini ./ansible/04-Tomcat/web-playbook.yaml -u ubuntu -v
     EOT
 }
