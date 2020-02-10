@@ -10,20 +10,20 @@ provider "aws" {
   
 }
 
-# resource "aws_instance" "backend" {
-#   ami                    = "ami-0994c095691a46fb5"
-#   instance_type          = "t2.micro"
-#   key_name               = "${var.key_name}"
-#   vpc_security_group_ids = ["${var.sg-id}"]
+resource "aws_instance" "backend" {
+  ami                    = "ami-0994c095691a46fb5"
+  instance_type          = "t2.micro"
+  key_name               = "${var.key_name}"
+  vpc_security_group_ids = ["${var.sg-id}"]
 
-# }
+}
 
 resource "null_resource" "remote-exec-1" {
     connection {
     user        = "ubuntu"
     type        = "ssh"
     private_key = "${file(var.pvt_key)}"
-    host        = "44.225.3.19"
+    host        = "${aws_instance.backend.public_ip}"
   }
 
   provisioner "remote-exec" {
