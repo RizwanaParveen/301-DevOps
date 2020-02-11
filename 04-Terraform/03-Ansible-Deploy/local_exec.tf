@@ -72,7 +72,7 @@ resource "null_resource" "remote-exec-1" {
     user        = "ubuntu"
     type        = "ssh"
     private_key = "${file(var.pvt_key)}"
-    host        = "${aws_instance.test-ec2-instance.public_ip}"
+    host        = "${aws_instance.test-ec2-instance.public_dns}"
   }
 
   provisioner "remote-exec" {
@@ -90,7 +90,7 @@ provisioner "local-exec" {
         > jenkins-ci.ini;
         echo "[jenkins-ci]"| tee -a jenkins-ci.ini;
         export ANSIBLE_HOST_KEY_CHECKING=False;
-        echo "${aws_instance.test-ec2-instance.public_ip}" | tee -a jenkins-ci.ini;
+        echo "${aws_instance.test-ec2-instance.public_dns}" | tee -a jenkins-ci.ini;
         ansible-playbook  --key=${var.pvt_key} -i jenkins-ci.ini ./ansible/04-Tomcat/web-playbook.yaml -u ubuntu -v
     EOT
 }
