@@ -8,7 +8,6 @@ node {
   }
     
  def project_path="01-Jenkins/Code/petclinic"
- def terraform_path="04-Terraform/03-Ansible-Deploy"
  dir(project_path) {
     
   stage('Maven-Clean') {
@@ -40,24 +39,12 @@ node {
    sh label: '', script: 'docker-compose ps'
    sh label: 'Docker', script: 'cp -rf target/*.war ../../../04-Terraform/03-Ansible-Deploy/ansible/04-Tomcat/templates/'
    notify('Deployed To staging.')
-   notify('waiting for your approval to deply to prod') 
+
   
 
   }
  } 
-   dir(terraform_path){
-  stage('Terraform-Ansible-Prod-Deployment') {
-       input "can I proceed with Prod?"
-      sh label: 'Initializing Terraform', script: 'terraform init'
-      sh label: 'Verifying the Infra', script: 'terraform plan -out=plan'
- // sh ‘terraform destroy -auto-approve’
- sh label:'Creating Infra for prod', script:'terraform apply plan'
- notify('Deployed to Prod')  
-//  input "delete the infra?"
-//  sh label:'Creating Infra for prod', script:'terraform destroy'
- 
-  }}
-notify('Job Completed')   
+  notify('Job Completed')   
 } catch (err) {
   notify("Error ${err}")
   currentBuild.result = 'FAILURE'
