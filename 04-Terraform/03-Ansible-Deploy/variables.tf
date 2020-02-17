@@ -36,5 +36,5 @@ variable "port"{
     default = 22
 }
 variable "ip"{
-    default = "ec2-52-26-198-196.us-west-2.compute.amazonaws.com"
+    default = "ec2-54-189-192-188.us-west-2.compute.amazonaws.com"
 }
