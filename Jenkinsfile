@@ -40,8 +40,6 @@ node {
    sh label: 'Docker', script: 'cp -rf target/*.war ../../../04-Terraform/03-Ansible-Deploy/ansible/04-Tomcat/templates/'
    notify('Deployed To staging.')
 
-  
-
   }
  } 
   notify('Job Completed')   
