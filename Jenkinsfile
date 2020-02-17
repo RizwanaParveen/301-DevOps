@@ -24,21 +24,11 @@ node {
   stage('SonarQube') {
    sh label: '', script: 'mvn sonar:sonar'
   }
-  
-   stage('Maven-Package') {
-   sh label: '', script: 'mvn package'
-  }
-  
-   stage('Archive-Artifacts') {
-       
-                withCredentials([usernamePassword(credentialsId: 'Jfrog', passwordVariable: 'password', usernameVariable: 'user')]) {
-     sh 'curl -u admin:$password -T target/*.war http://aaorw62988dns.eastus2.cloudapp.azure.com:8081/artifactory/generic-local/${JOB_NAME}-${BUILD_ID}'
-}}
-  stage('Docker-Stage-Deployment') {
+}
+  stage('Docker-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
    sh label: '', script: 'docker-compose ps'
-   sh label: 'Docker', script: 'cp -rf target/*.war ../../../04-Terraform/03-Ansible-Deploy/ansible/04-Tomcat/templates/'
-   notify('Deployed To staging.')
+   notify('Deployed To QA.')
 
   }
  } 
