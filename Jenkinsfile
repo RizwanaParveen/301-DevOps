@@ -24,6 +24,9 @@ node {
   stage('SonarQube') {
    sh label: '', script: 'mvn sonar:sonar'
   }
+   stage('Maven-Package') {
+   sh label: '', script: 'mvn package'
+  }
    stage('Archive-Artifacts') {
    archiveArtifacts 'target/*.war'
   }
