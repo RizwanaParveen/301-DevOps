@@ -24,13 +24,13 @@ node {
   stage('SonarQube') {
    sh label: '', script: 'mvn sonar:sonar'
   }
-}
+
   stage('Docker-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
    sh label: '', script: 'docker-compose ps'
    notify('Deployed To QA.')
 
-  } 
+  } }
   notify('Job Completed')   
 } catch (err) {
   notify("Error ${err}")
