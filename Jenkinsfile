@@ -8,7 +8,7 @@ node {
   }
     
  def project_path="01-Jenkins/Code/petclinic"
- def terraform_path="04-Terraform/03-Ansible-Deploy"
+ def terraform_path="03-Ansible/04-Tomcat"
  dir(project_path) {
     
   stage('Maven-Clean') {
@@ -40,16 +40,10 @@ node {
 
  } 
    dir(terraform_path){
-  stage('Terraform-Ansible-Prod-Deployment') {
+  stage('Ansible-Prod-Deployment') {
        input "can I proceed with Prod?"
-      sh label: 'Initializing Terraform', script: 'terraform init'
-      sh label: 'Verifying the Infra', script: 'terraform plan -out=plan'
- // sh ‘terraform destroy -auto-approve’
- sh label:'Creating Infra for prod', script:'terraform apply plan'
- notify('Deployed to Prod')  
-//  input "delete the infra?"
-//  sh label:'Creating Infra for prod', script:'terraform destroy'
- 
+      sh label: '', script: 'ansible-playbook web-playbook.yaml'
+
   }}
 notify('Job Completed')   
 } catch (err) {

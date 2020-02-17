@@ -1,33 +1,9 @@
-10.128.0.32
-
 [web]
-10.128.0.33
-10.128.0.34
-
-
-[db]
-10.128.0.34
-
-[prod]
-10.128.0.[35:40]
-10.128.0.[41:45]
-
-[test]
-10.128.0.34
-10.128.0.33
-
-[python3]
-10.128.0.43
-10.128.0.37
-
-
+54.149.206.61
 
 [dc:children]
-prod
-test
-db
 web
 
 [dc:vars]
-ansible_ssh_user=root
-ansible_ssh_pass=redhat
+ansible_ssh_user=ubuntu
+ansible_ssh_private_key_file="/root/.ssh/aws-ec2.pem"

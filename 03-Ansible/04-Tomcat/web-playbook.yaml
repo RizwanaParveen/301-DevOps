@@ -1,7 +1,8 @@
 ---
 
-- hosts: 'web'
+- hosts: all
   become: yes
+  become_method: sudo
   tasks:
   - name: Install Apache2 Packages 
     apt:  name=apache2 state=present
@@ -26,9 +27,6 @@
     copy: src=templates/apps dest=/opt/SP/apps/tomcat/webapps/ mode=0644
     notify: 
     - Restart Tomcat
-
-  - name: Copy Sample War Files
-    copy: src=templates/sample.war dest=/opt/SP/apps/tomcat/webapps/ mode=0644
 
   - name: Copy Petclinic Project War Files
     copy: src=templates/petclinic.war dest=/opt/SP/apps/tomcat/webapps/ mode=0644
