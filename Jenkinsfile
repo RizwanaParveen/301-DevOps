@@ -1,8 +1,7 @@
 node {
  try  {
- notify('DevOps 301 Pipeline Started') 
+ notify('Production Update found') 
 
-     
   stage('Git-Checkout') {
    git 'https://github.com/RizwanaParveen/301-DevOps.git'
   }
@@ -36,14 +35,13 @@ node {
      sh 'curl -u admin:$password -T target/*.war http://aaorw62988dns.eastus2.cloudapp.azure.com:8081/artifactory/generic-local/${JOB_NAME}-${BUILD_ID}'
 }
     notify('waiting for your approval to deply to prod')
-   sh label: 'Docker', script: 'cp -rf target/*.war ../../../04-Terraform/03-Ansible-Deploy/ansible/04-Tomcat/templates/'}
+   sh label: 'Docker', script: 'cp -rf target/*.war ../../../03-Ansible/04-Tomcat/templates/'}
 
  } 
    dir(terraform_path){
   stage('Ansible-Prod-Deployment') {
        input "can I proceed with Prod?"
       sh label: '', script: 'ansible-playbook web-playbook.yaml'
-
   }}
 notify('Job Completed')   
 } catch (err) {
