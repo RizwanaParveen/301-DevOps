@@ -30,8 +30,7 @@ node {
    sh label: '', script: 'docker-compose ps'
    notify('Deployed To QA.')
 
-  }
- } 
+  } 
   notify('Job Completed')   
 } catch (err) {
   notify("Error ${err}")
