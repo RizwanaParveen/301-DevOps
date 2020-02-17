@@ -24,6 +24,9 @@ node {
   stage('SonarQube') {
    sh label: '', script: 'mvn sonar:sonar'
   }
+   stage('Archive-Artifacts') {
+   archiveArtifacts 'target/*.war'
+  }
 
   stage('Docker-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
