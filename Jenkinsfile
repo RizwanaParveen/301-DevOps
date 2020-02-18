@@ -9,7 +9,9 @@ node {
  def project_path="01-Jenkins/Code/petclinic"
  def terraform_path="03-Ansible/04-Tomcat"
  dir(project_path) {
-    
+     stage('SonarQube') {
+   sh label: '', script: 'mvn sonar:sonar'
+  }
   stage('Maven-Clean') {
    sh label: '', script: 'mvn clean'
   }
@@ -21,10 +23,7 @@ node {
    stage('Maven-Test') {
    sh label: '', script: 'mvn test'
   }
-  stage('SonarQube') {
-   sh label: '', script: 'mvn sonar:sonar'
-  }
-  
+   
    stage('Maven-Package') {
    sh label: '', script: 'mvn package'
   }
